@@ -1,0 +1,15 @@
+ffmpeg-python==0.2.0
+librosa==0.8.1
+matplotlib==3.1.0
+numpy==1.20.3
+pyworld==0.3.0
+PyYAML==6.0
+scikit-learn==1.0.1
+scipy==1.7.3
+seaborn==0.11.2
+SoundFile==0.10.3.post1
+sox==1.4.1
+torch==1.10.0+cu113
+torchaudio==0.10.0+cu113
+torchvision==0.11.2+cu113
+tqdm==4.62.3
