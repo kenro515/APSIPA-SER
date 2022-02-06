@@ -1,0 +1,22 @@
+dataset_setting:
+  in_dir: '/sp/work/ryo0701n'
+  in_dim: 36
+  max_len: 2200
+training_setting:
+  epoch: 1
+  batch_size: 128
+  d_model: 256
+  learning_rate: 1.0e-4
+  warmup_rate: 0.30
+  early_stopping: 20
+plot_acc_curve_setting:
+  acc_curve_x_label: 'training samples'
+  acc_curve_y_label: 'accuracy'
+  acc_curve_title: 'Accuracy curve'
+plot_loss_curve_setting:
+  loss_curve_x_label: 'epoch'
+  loss_curve_y_label: 'error'
+  loss_curve_title: 'Learning curve'
+plot_cm_setting:
+  cm_x_label: '\nPredicted label'
+  cm_y_label: 'True label'
