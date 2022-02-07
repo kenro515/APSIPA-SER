@@ -1,4 +1,4 @@
-# APSIPA-SER-with-A
+# APSIPA-SER
 
 This code is the implementation of Speech Emotion Recognition (SER) with acoustic features.
 The network model is Convolutional Neural Network (CNN) + Bidirectional Long Short Term Memory (BLSTM) + Self-Attention.
