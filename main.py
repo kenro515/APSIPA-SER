@@ -21,6 +21,7 @@ torch.backends.cudnn.benchmark = True
 torch.manual_seed(1234)
 torch.cuda.manual_seed(1234)
 
+
 def spliting(inputs):
     split_inputs = []
 
@@ -31,6 +32,7 @@ def spliting(inputs):
         ]
         split_inputs.append(seg_input)
     return split_inputs
+
 
 def train(net, train_loader, optimizer, criterion):
     net.train()
@@ -102,7 +104,7 @@ if __name__ == '__main__':
     # load param
     with open('hyper_param.yaml', 'r') as file:
         config = yaml.safe_load(file.read())
-    
+
     in_dir = config['dataset_setting']['in_dir']
     in_dim = config['dataset_setting']['in_dim']
     max_len = config['dataset_setting']['max_len']
@@ -116,12 +118,16 @@ if __name__ == '__main__':
 
     # make dir for results
     time_now = datetime.datetime.now()
-    os.makedirs("./results/{}/accuracy_curve".format(str(time_now.date())), exist_ok=True)
-    os.makedirs("./results/{}/confusion_matrix".format(str(time_now.date())), exist_ok=True)
-    os.makedirs("./results/{}/learning_curve".format(str(time_now.date())), exist_ok=True)
-    os.makedirs("./results/{}/model_param".format(str(time_now.date())), exist_ok=True)
+    os.makedirs(
+        "./results/{}/accuracy_curve".format(str(time_now.date())), exist_ok=True)
+    os.makedirs(
+        "./results/{}/confusion_matrix".format(str(time_now.date())), exist_ok=True)
+    os.makedirs(
+        "./results/{}/learning_curve".format(str(time_now.date())), exist_ok=True)
+    os.makedirs(
+        "./results/{}/model_param".format(str(time_now.date())), exist_ok=True)
 
-    # training setup 
+    # training setup
     fold = KFold(n_splits=5, shuffle=False)
     cross_validation = 0
     cv_lists = []
@@ -146,11 +152,11 @@ if __name__ == '__main__':
 
         criterion = nn.CrossEntropyLoss()
         optimizer = torch.optim.Adam(
-            net.parameters(), 
+            net.parameters(),
             lr=learning_rate
         )
         scheduler = WarmupConstantSchedule(
-            optimizer, 
+            optimizer,
             warmup_epochs=epochs * warmup_rate
         )
 
@@ -177,7 +183,7 @@ if __name__ == '__main__':
                 net, valid_loader, criterion)
 
             print('train_loss {:.8f} valid loss {:.8f} train_acc {:.8f} valid_acc {:.8f}'.format(
-                    train_loss, valid_loss, train_acc, valid_acc))
+                train_loss, valid_loss, train_acc, valid_acc))
 
             scheduler.step()
 
@@ -198,8 +204,8 @@ if __name__ == '__main__':
         torch.save(
             net.state_dict(),
             './results/{}/model_param/SER_fold{}_{}_Param.pth'.format(
-                str(time_now.date()), 
-                fold_idx + 1, 
+                str(time_now.date()),
+                fold_idx + 1,
                 time_now)
         )
         cv_lists.append(valid_acc)
@@ -231,7 +237,7 @@ if __name__ == '__main__':
             dir_path_name=str(time_now.date())
         )
 
-# ================== [3] Plot results of CV ==================
-print("cross validation:{}".format(cv_lists))
-print("cross validation [ave]:{}".format(cross_validation / fold.n_splits))
-print("Finished!")
+    # ================== [3] Plot results of CV ==================
+    print("cross validation:{}".format(cv_lists))
+    print("cross validation [ave]:{}".format(cross_validation / fold.n_splits))
+    print("Finished!")
