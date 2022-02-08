@@ -22,10 +22,10 @@ torch.manual_seed(1234)
 torch.cuda.manual_seed(1234)
 
 
-def spliting(inputs):
+def split_audio(inputs):
     split_inputs = []
 
-    split_pvot = (2200 // (100 // 2)) - 1
+    split_pvot = (inputs.shape[3] // (100 // 2)) - 1
     for i in range(split_pvot):
         seg_input = inputs[
             :, :, :, ((100 // 2) * i): (100 + ((100 // 2) * i))
@@ -38,12 +38,12 @@ def train(net, train_loader, optimizer, criterion):
     net.train()
     running_loss, correct_cnt, total = 0.0, 0.0, 0.0
 
-    for batch_idx, (inputs, labels) in enumerate(tqdm(train_loader)):
+    for (inputs, labels) in tqdm(train_loader):
         inputs = inputs.to(device)
         labels = labels.to(device)
         target = torch.max(labels, 1)[1]
 
-        split_inputs = spliting(inputs)
+        split_inputs = split_audio(inputs)
         outputs, _ = net(split_inputs)
 
         loss = criterion(outputs, target)
@@ -73,12 +73,12 @@ def valid(net, valid_loader, criterion):
     predict_lists = torch.zeros(0, dtype=torch.long, device='cpu')
 
     with torch.no_grad():
-        for batch_idx, (inputs, labels) in enumerate(tqdm(valid_loader)):
+        for (inputs, labels) in tqdm(valid_loader):
             inputs = inputs.to(device)
             labels = labels.to(device)
             target = torch.max(labels, 1)[1]
 
-            split_inputs = spliting(inputs)
+            split_inputs = split_audio(inputs)
             outputs, _ = net(split_inputs)
 
             loss = criterion(outputs, target)

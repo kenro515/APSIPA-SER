@@ -4,6 +4,7 @@ import numpy as np
 import torch.utils.data as data
 from torchvision import transforms
 
+
 def prepare_leave_one_group_out(p_paths):
     spk_idx_list = [
         ["m01", "m11", "m21", "m31", "m41", "f01", "f11", "f21", "f31", "f41",
@@ -37,10 +38,10 @@ def prepare_leave_one_group_out(p_paths):
             seg_fold_list_4.append(path)
 
     print("fold0:{}\tfold1:{}\tfold2:{}\tfold3:{}\tfold4:{}".format(
-        len(seg_fold_list_0), 
-        len(seg_fold_list_1), 
-        len(seg_fold_list_2), 
-        len(seg_fold_list_3), 
+        len(seg_fold_list_0),
+        len(seg_fold_list_1),
+        len(seg_fold_list_2),
+        len(seg_fold_list_3),
         len(seg_fold_list_4)))
 
     seg_fold_list_out = seg_fold_list_0 + seg_fold_list_1 + \
@@ -74,7 +75,7 @@ class MyDataset(data.Dataset):
             sound_data = sound_data[0:self.max_len, :]
         else:
             padding_size = self.max_len-sound_data.shape[0]
-            buff = np.zeros([padding_size, self.in_dim ])
+            buff = np.zeros([padding_size, self.in_dim])
 
             sound_data = np.concatenate([sound_data, buff])
 

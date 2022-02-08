@@ -1,10 +1,10 @@
-import math
 import torch
 import torch.nn as nn
 
 from .MultiheadAttention import MultiheadAttention
 
 torch.manual_seed(1234)
+
 
 class CNN_BiLSTM_Attention(nn.Module):
     def __init__(self, d_model=None):
@@ -33,7 +33,7 @@ class CNN_BiLSTM_Attention(nn.Module):
         )
 
         self.linear_layer1 = nn.Linear(
-            5, 
+            5,
             1
         )
 
@@ -69,11 +69,11 @@ class CNN_BiLSTM_Attention(nn.Module):
                 x_cnn1 = self.conv_layer1(x_in)
                 x_cnn1_act = self.activation(x_cnn1)
                 x_pool1 = self.maxpool_layer1(x_cnn1_act)
-                
+
                 x_cnn2 = self.conv_layer2(x_pool1)
                 x_cnn2_act = self.activation(x_cnn2)
                 x_pool2 = self.maxpool_layer2(x_cnn2_act)
-                
+
                 x_linear = self.linear_layer1(x_pool2)
                 x_drop = self.dropout(x_linear)
                 x_drop = x_drop.view(x_drop.shape[0], 1, x_drop.shape[1])
@@ -94,4 +94,3 @@ class CNN_BiLSTM_Attention(nn.Module):
         x_out = self.linear_out(x_attn_drop)
 
         return x_out, self.feature_
-
